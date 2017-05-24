@@ -66,11 +66,7 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        RecentImages ri = new RecentImages();
-        ImageAdapter adapter = ri.getAdapter(MainActivity.this);
 
-        GridView gridView = (GridView) findViewById(R.id.gridview);
-        gridView.setAdapter(adapter);
 
     }
 
