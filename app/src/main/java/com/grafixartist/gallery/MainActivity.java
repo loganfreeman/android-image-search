@@ -24,6 +24,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -34,6 +35,12 @@ import com.amirarcane.recentimages.thumbnailOptions.ImageAdapter;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
+
+import rx.Scheduler;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 import static android.R.attr.data;
 
@@ -47,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
 
     private ImageView image;
 
-
+    private EditText searchEditText;
 
 
     @Override
@@ -67,6 +74,33 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
 
+        searchEditText = (EditText) findViewById(R.id.search_text);
+
+        findViewById(R.id.search_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ImageSearchClient.searchAsync(searchEditText.getText().toString())
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<List<ImageModel>>() {
+                    @Override
+                    public void onCompleted() {
+                        Log.i("Image Search: ", "completed");
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.e("IO: ", e.getLocalizedMessage());
+                    }
+
+                    @Override
+                    public void onNext(List<ImageModel> imageModels) {
+                        Log.i("Image search: ", ""+imageModels.size());
+                        ImageListActivity.start(MainActivity.this, imageModels);
+                    }
+                });
+            }
+        });
 
     }
 

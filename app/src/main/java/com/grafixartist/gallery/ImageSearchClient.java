@@ -1,13 +1,22 @@
 package com.grafixartist.gallery;
 
-import android.provider.DocumentsContract;
+import android.util.Log;
+
+import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Callable;
+
+import rx.Observable;
 
 /**
  * Created by shanhong on 5/24/17.
@@ -23,12 +32,38 @@ public class ImageSearchClient {
     }
     public static List<ImageModel> search(String keyword) {
         List<ImageModel> images = new ArrayList<ImageModel>();
+        Gson gson = new Gson();
         try {
-            Document document = Jsoup.connect(contructUrl(keyword)).get();
+            String url = contructUrl(keyword);
+            Log.i("Url: ", url);
+            Document document = Jsoup.connect(url).get();
+            Elements elements = document.select(".rg_di .rg_meta");
+            for(Element metaElement: elements) {
+                String metaData = metaElement.html();
+                JsonObject json = gson.fromJson(metaData, JsonObject.class);
+                ImageModel imageModel = fromJsonObject(json);
+                images.add(imageModel);
+            }
         } catch (IOException e) {
-            e.printStackTrace();
+            Log.e("IO: ", e.getLocalizedMessage());
         }
         return images;
     }
+
+
+    public static Observable<List<ImageModel>> searchAsync(final String keyword) {
+        return  Observable.fromCallable(new Callable<List<ImageModel>>() {
+            @Override
+            public List<ImageModel> call() throws Exception {
+                return ImageSearchClient.search(keyword);
+            }
+        });
+    }
+
+    public static ImageModel fromJsonObject(JsonObject json) {
+        return new ImageModel(json.get("ou").getAsString());
+    }
+
+
 }
 

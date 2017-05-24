@@ -8,14 +8,13 @@ import android.os.Parcelable;
  */
 public class ImageModel implements Parcelable {
 
-    String name, url;
+    String url;
 
-    public ImageModel() {
-
+    public ImageModel(String url) {
+        this.url = url;
     }
 
     protected ImageModel(Parcel in) {
-        name = in.readString();
         url = in.readString();
     }
 
@@ -31,13 +30,7 @@ public class ImageModel implements Parcelable {
         }
     };
 
-    public String getName() {
-        return name;
-    }
 
-    public void setName(String name) {
-        this.name = name;
-    }
 
     public String getUrl() {
         return url;
@@ -54,7 +47,6 @@ public class ImageModel implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(name);
         dest.writeString(url);
     }
 }
