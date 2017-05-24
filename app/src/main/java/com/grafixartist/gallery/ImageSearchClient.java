@@ -37,7 +37,7 @@ public class ImageSearchClient {
             String url = contructUrl(keyword);
             Log.i("Url: ", url);
             Document document = Jsoup.connect(url).get();
-            Elements elements = document.select(".rg_di .rg_meta");
+            Elements elements = document.select(".rg_meta");
             for(Element metaElement: elements) {
                 String metaData = metaElement.html();
                 JsonObject json = gson.fromJson(metaData, JsonObject.class);
@@ -61,7 +61,9 @@ public class ImageSearchClient {
     }
 
     public static ImageModel fromJsonObject(JsonObject json) {
-        return new ImageModel(json.get("ou").getAsString());
+        String url = json.get("ou").getAsString();
+        Log.i("Url: ", url);
+        return new ImageModel(url);
     }
 
 

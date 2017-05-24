@@ -6,8 +6,10 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +25,10 @@ public class ImageListActivity extends AppCompatActivity {
     private static final String MODELS = "IMAGE_MODELS";
 
     private List<ImageModel> imageModels;
+
+    private GalleryAdapter adapter;
+
+    private GridLayoutManager lLayout;
 
 
     public static void start(Context context, List<ImageModel> imageModels) {
@@ -43,6 +49,13 @@ public class ImageListActivity extends AppCompatActivity {
 
         imageModels = getIntent().getExtras().getParcelableArrayList(MODELS);
 
+        GalleryAdapter adapter = new GalleryAdapter(this, imageModels);
+
+        lLayout = new GridLayoutManager(this, 4);
+
+        imageListView.setLayoutManager(lLayout);
+
+        imageListView.setAdapter(adapter);
 
 
     }
