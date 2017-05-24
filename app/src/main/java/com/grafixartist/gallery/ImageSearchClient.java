@@ -12,6 +12,8 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
@@ -26,9 +28,15 @@ public class ImageSearchClient {
     public static final String URL_PREFIX = "https://www.google.com/search?q=";
     public static final String RESOLUTION = "%20high%20resolution";
     public static String contructUrl(String keyword) {
-        keyword = keyword.replace(" ", "%20");
 
-        return URL_PREFIX + keyword + RESOLUTION + "&espv=2&biw=1366&bih=667&site=webhp&source=lnms&tbm=isch&sa=X&ei=XosDVaCXD8TasATItgE&ved=0CAcQ_AUoAg";
+        String query = null;
+        try {
+            query = URLEncoder.encode(keyword, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+
+        }
+
+        return URL_PREFIX + query + "&tbm=isch&source=lnms&sa=X&ved=0ahUKEwipm_WnuonUAhVlsFQKHYpxB4wQ_AUIBigB&biw=1920&bih=960#q=mushroom&tbm=isch&tbs=isz:l";
     }
     public static List<ImageModel> search(String keyword) {
         List<ImageModel> images = new ArrayList<ImageModel>();
@@ -37,7 +45,7 @@ public class ImageSearchClient {
             String url = contructUrl(keyword);
             Log.i("Url: ", url);
             Document document = Jsoup.connect(url).get();
-            Elements elements = document.select("#ires .rg_di > .rg_meta");
+            Elements elements = document.select(".rg_di > .rg_meta");
             for(Element metaElement: elements) {
                 String metaData = metaElement.html();
                 JsonObject json = gson.fromJson(metaData, JsonObject.class);
