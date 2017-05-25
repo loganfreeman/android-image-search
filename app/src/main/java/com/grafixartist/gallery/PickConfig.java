@@ -44,4 +44,8 @@ public class PickConfig {
     public static final int PICK_BLACK_COLOR = R.color.pick_black;
     public static final int PICK_WHITE_COLOR = R.color.pick_white;
 
+    public static final String STATUS_BAR_COLOR = "#191919";
+
+    public static final String TOOLBAR_ICON_COLOR = "#FFFFFF";
+    public static final String TOOLBAR_COLOR = "#191919" ;
 }
