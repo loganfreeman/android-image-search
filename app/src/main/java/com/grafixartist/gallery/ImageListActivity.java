@@ -12,6 +12,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
@@ -40,6 +41,8 @@ public class ImageListActivity extends AppCompatActivity {
 
     private RequestManager manager;
 
+    private TextView selectText, selectImageSize;
+
 
     public static void start(Context context, List<ImageModel> imageModels) {
         Intent intent = new Intent(context, ImageListActivity.class);
@@ -63,6 +66,8 @@ public class ImageListActivity extends AppCompatActivity {
 
         initSelectLayout();
     }
+
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -99,6 +104,12 @@ public class ImageListActivity extends AppCompatActivity {
     private void initSelectLayout() {
         LinearLayout selectLayout = (LinearLayout) findViewById(R.id.select_layout);
         selectLayout.setVisibility(View.VISIBLE);
+
+        selectText = (TextView) findViewById(R.id.tv_pick_photo);
+        selectImageSize = (TextView) findViewById(R.id.tv_preview_photo);
+        selectImageSize.setText(String.valueOf("0"));
+
+        selectText.setOnClickListener(selectClick);
     }
 
     private RecyclerView.OnScrollListener scrollListener = new RecyclerView.OnScrollListener() {
@@ -129,5 +140,17 @@ public class ImageListActivity extends AppCompatActivity {
 
     private void select() {
 
+    }
+
+    public void updateSelectText(String selectSize) {
+        if (selectSize.equals("0")) {
+            selectImageSize.setText(String.valueOf(0));
+            selectText.setTextColor(getResources().getColor(R.color.pick_gray));
+            selectText.setEnabled(false);
+        } else {
+            selectImageSize.setText(String.valueOf(selectSize));
+            selectText.setTextColor(getResources().getColor(R.color.pick_blue));
+            selectText.setEnabled(true);
+        }
     }
 }

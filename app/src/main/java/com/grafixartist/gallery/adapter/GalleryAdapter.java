@@ -17,6 +17,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.grafixartist.gallery.ImageListActivity;
 import com.grafixartist.gallery.ImageModel;
 import com.grafixartist.gallery.PickConfig;
 import com.grafixartist.gallery.R;
@@ -31,7 +32,7 @@ import java.util.List;
  */
 public class GalleryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    Context context;
+    ImageListActivity context;
     List<ImageModel> data = new ArrayList<>();
 
     private List<String> selectPath;
@@ -41,7 +42,7 @@ public class GalleryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     private RequestManager manager;
 
     public GalleryAdapter(Context context, RequestManager manager, List<ImageModel> data) {
-        this.context = context;
+        this.context = (ImageListActivity) context;
         this.data = data;
         this.manager = manager;
         selectPath = new ArrayList<>();
@@ -161,12 +162,14 @@ public class GalleryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             }
         };
 
-        void removePath(String path) {
-
+        void addPath(String path) {
+            selectPath.add(path);
+            context.updateSelectText(String.valueOf(selectPath.size()));
         }
 
-        void addPath(String path) {
-
+        void removePath(String path) {
+            selectPath.remove(path);
+            context.updateSelectText(String.valueOf(selectPath.size()));
         }
 
         void select() {
