@@ -37,7 +37,7 @@ public class PickConfig {
     // default size
     public static final int DEFAULT_PICK_SIZE = 9;
     // default span count
-    public static final int DEFAULT_SPAN_COUNT = 4;
+    public static final int DEFAULT_SPAN_COUNT = 3;
     // list scroll threshold
     public static final int SCROLL_THRESHOLD = 30;
     // toolbar icon color
