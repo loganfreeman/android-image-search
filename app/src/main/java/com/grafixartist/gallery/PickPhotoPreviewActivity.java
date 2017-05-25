@@ -217,6 +217,11 @@ public class PickPhotoPreviewActivity extends AppCompatActivity {
     }
 
     private void finishForResult() {
+        Intent intent = new Intent();
+        intent.setClass(PickPhotoPreviewActivity.this, ImageListActivity.class);
+        intent.putExtra(PickConfig.INTENT_IMG_LIST_SELECT, (Serializable) selectImagePath);
+        setResult(PickConfig.PREVIEW_PHOTO_DATA,intent);
+        finish();
     }
 
 

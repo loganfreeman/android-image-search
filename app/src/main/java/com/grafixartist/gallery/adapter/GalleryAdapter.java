@@ -91,6 +91,10 @@ public class GalleryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         return selectPath;
     }
 
+    public void setSelectPath(List<String> selectPath){
+        this.selectPath = selectPath;
+    }
+
     @Override
     public void onViewRecycled(RecyclerView.ViewHolder holder) {
         GridImageViewHolder gridImageViewHolder = (GridImageViewHolder) holder;

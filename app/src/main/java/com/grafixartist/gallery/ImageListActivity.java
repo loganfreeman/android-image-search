@@ -2,6 +2,7 @@ package com.grafixartist.gallery;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
@@ -164,6 +165,26 @@ public class ImageListActivity extends AppCompatActivity {
             selectImageSize.setText(String.valueOf(selectSize));
             selectText.setTextColor(getResources().getColor(R.color.pick_blue));
             selectText.setEnabled(true);
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == 0) {
+            return;
+        }
+        if (requestCode == PickConfig.LIST_PHOTO_DATA) {
+
+        } else if (requestCode == PickConfig.CAMERA_PHOTO_DATA) {
+
+        }else if(requestCode == PickConfig.PREVIEW_PHOTO_DATA){
+            if (data != null) {
+                List<String> selectPath = (List<String>) data.getSerializableExtra(PickConfig.INTENT_IMG_LIST_SELECT);
+                adapter.setSelectPath(selectPath);
+                adapter.notifyDataSetChanged();
+                updateSelectText(String.valueOf(selectPath.size()));
+            }
         }
     }
 }
