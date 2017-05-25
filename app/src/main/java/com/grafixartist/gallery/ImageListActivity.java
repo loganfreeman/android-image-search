@@ -44,9 +44,6 @@ public class ImageListActivity extends AppCompatActivity {
 
     private TextView selectText, selectImageSize;
 
-    private List<String> allPhotos;
-
-
     public static void start(Context context, List<ImageModel> imageModels) {
         Intent intent = new Intent(context, ImageListActivity.class);
         intent.putParcelableArrayListExtra(MODELS, (ArrayList<? extends Parcelable>) imageModels);
@@ -111,7 +108,7 @@ public class ImageListActivity extends AppCompatActivity {
             Intent intent = new Intent();
             intent.setClass(ImageListActivity.this, PickPhotoPreviewActivity.class);
             intent.putExtra(PickConfig.INTENT_IMG_PATH, imgPath);
-            intent.putExtra(PickConfig.INTENT_IMG_LIST, (Serializable) allPhotos);
+            intent.putParcelableArrayListExtra(PickConfig.INTENT_IMG_LIST, (ArrayList<? extends Parcelable>) imageModels);
             intent.putExtra(PickConfig.INTENT_IMG_LIST_SELECT, (Serializable) adapter.getSelectPath());
             startActivityForResult(intent,PickConfig.PREVIEW_PHOTO_DATA);
         }

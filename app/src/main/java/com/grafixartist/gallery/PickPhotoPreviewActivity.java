@@ -29,7 +29,7 @@ import java.util.List;
 
 public class PickPhotoPreviewActivity extends AppCompatActivity {
 
-    private List<String> allImagePath;
+    private List<ImageModel> allImagePath;
     private List<String> selectImagePath;
     private String path;
     private ViewPager viewPager;
@@ -43,9 +43,8 @@ public class PickPhotoPreviewActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.pick_activty_preview_photo);
-        pickData = (PickData) getIntent().getSerializableExtra(PickConfig.INTENT_PICK_DATA);
         path = getIntent().getStringExtra(PickConfig.INTENT_IMG_PATH);
-        allImagePath = (List<String>) getIntent().getSerializableExtra(PickConfig.INTENT_IMG_LIST);
+        allImagePath =  getIntent().getExtras().getParcelableArrayList(PickConfig.INTENT_IMG_LIST);
         selectImagePath = (List<String>) getIntent().getSerializableExtra(PickConfig.INTENT_IMG_LIST_SELECT);
         imageViews = new ArrayList<>();
         if(selectImagePath == null){
@@ -88,7 +87,7 @@ public class PickPhotoPreviewActivity extends AppCompatActivity {
         });
         viewPager = (ViewPager) findViewById(R.id.image_vp);
         int indexOf = allImagePath.indexOf(path);
-        judgeSelect(allImagePath.get(indexOf));
+        judgeSelect(allImagePath.get(indexOf).getUrl());
         viewPager.setAdapter(new listPageAdapter());
         viewPager.setCurrentItem(indexOf);
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -99,7 +98,7 @@ public class PickPhotoPreviewActivity extends AppCompatActivity {
 
             @Override
             public void onPageSelected(int position) {
-                String path = allImagePath.get(position);
+                String path = allImagePath.get(position).getUrl();
                 judgeSelect(path);
             }
 
@@ -130,7 +129,7 @@ public class PickPhotoPreviewActivity extends AppCompatActivity {
             final LargeImageView pic = imageViews.get(i);
             ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
             container.addView(pic,params);
-            String path = allImagePath.get(position);
+            String path = allImagePath.get(position).getUrl();
             pic.setImage(new FileBitmapDecoderFactory(new File(path)));
             return pic;
         }
