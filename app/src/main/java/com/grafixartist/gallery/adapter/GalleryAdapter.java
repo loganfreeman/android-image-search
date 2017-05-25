@@ -41,11 +41,15 @@ public class GalleryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     private RequestManager manager;
 
-    public GalleryAdapter(Context context, RequestManager manager, List<ImageModel> data) {
+    private View.OnClickListener imgClick;
+
+    public GalleryAdapter(Context context, RequestManager manager, List<ImageModel> data,  View.OnClickListener imgClick) {
         this.context = (ImageListActivity) context;
         this.data = data;
         this.manager = manager;
         selectPath = new ArrayList<>();
+
+        this.imgClick = imgClick;
 
         buildScaleSize();
     }
@@ -81,6 +85,10 @@ public class GalleryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     @Override
     public int getItemCount() {
         return data.size();
+    }
+
+    public List<String> getSelectPath() {
+        return selectPath;
     }
 
     @Override
@@ -136,6 +144,7 @@ public class GalleryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 selectLayout.setTag(R.id.pick_image_path, path);
                 selectLayout.setOnClickListener(moreClick);
                 weekImage.setTag(R.id.pick_image_path, path);
+                weekImage.setOnClickListener(imgClick);
             }
         }
 

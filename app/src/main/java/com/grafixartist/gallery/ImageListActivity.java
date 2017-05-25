@@ -20,6 +20,7 @@ import com.grafixartist.gallery.adapter.GalleryAdapter;
 import com.grafixartist.gallery.utils.PickUtils;
 import com.grafixartist.gallery.widget.SpaceItemDecoration;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,6 +43,8 @@ public class ImageListActivity extends AppCompatActivity {
     private RequestManager manager;
 
     private TextView selectText, selectImageSize;
+
+    private List<String> allPhotos;
 
 
     public static void start(Context context, List<ImageModel> imageModels) {
@@ -92,7 +95,7 @@ public class ImageListActivity extends AppCompatActivity {
 
         imageModels = getIntent().getExtras().getParcelableArrayList(MODELS);
 
-        GalleryAdapter adapter = new GalleryAdapter(this, manager, imageModels);
+        GalleryAdapter adapter = new GalleryAdapter(this, manager, imageModels, imageClick);
 
         lLayout = new GridLayoutManager(this, PickConfig.DEFAULT_SPAN_COUNT);
 
@@ -100,6 +103,19 @@ public class ImageListActivity extends AppCompatActivity {
 
         photoList.setAdapter(adapter);
     }
+
+    View.OnClickListener imageClick = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            String imgPath = (String) v.getTag(R.id.pick_image_path);
+            Intent intent = new Intent();
+            intent.setClass(ImageListActivity.this, PickPhotoPreviewActivity.class);
+            intent.putExtra(PickConfig.INTENT_IMG_PATH, imgPath);
+            intent.putExtra(PickConfig.INTENT_IMG_LIST, (Serializable) allPhotos);
+            intent.putExtra(PickConfig.INTENT_IMG_LIST_SELECT, (Serializable) adapter.getSelectPath());
+            startActivityForResult(intent,PickConfig.PREVIEW_PHOTO_DATA);
+        }
+    };
 
     private void initSelectLayout() {
         LinearLayout selectLayout = (LinearLayout) findViewById(R.id.select_layout);
