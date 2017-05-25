@@ -2,7 +2,6 @@ package com.grafixartist.gallery;
 
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
@@ -12,6 +11,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -43,7 +43,9 @@ public class ImageListActivity extends AppCompatActivity {
 
     private RequestManager manager;
 
-    private TextView selectText, selectImageSize;
+    private TextView selectImageSize;
+
+    private Button sharePhotosButton;
 
     public static void start(Context context, List<ImageModel> imageModels) {
         Intent intent = new Intent(context, ImageListActivity.class);
@@ -119,11 +121,11 @@ public class ImageListActivity extends AppCompatActivity {
         LinearLayout selectLayout = (LinearLayout) findViewById(R.id.select_layout);
         selectLayout.setVisibility(View.VISIBLE);
 
-        selectText = (TextView) findViewById(R.id.tv_pick_photo);
+        sharePhotosButton = (Button) findViewById(R.id.tv_pick_photo);
         selectImageSize = (TextView) findViewById(R.id.tv_preview_photo);
         selectImageSize.setText(String.valueOf("0"));
 
-        selectText.setOnClickListener(selectClick);
+        sharePhotosButton.setOnClickListener(selectClick);
     }
 
     private RecyclerView.OnScrollListener scrollListener = new RecyclerView.OnScrollListener() {
@@ -159,12 +161,12 @@ public class ImageListActivity extends AppCompatActivity {
     public void updateSelectText(String selectSize) {
         if (selectSize.equals("0")) {
             selectImageSize.setText(String.valueOf(0));
-            selectText.setTextColor(getResources().getColor(R.color.pick_gray));
-            selectText.setEnabled(false);
+            sharePhotosButton.setTextColor(getResources().getColor(R.color.pick_gray));
+            sharePhotosButton.setEnabled(false);
         } else {
             selectImageSize.setText(String.valueOf(selectSize));
-            selectText.setTextColor(getResources().getColor(R.color.pick_blue));
-            selectText.setEnabled(true);
+            sharePhotosButton.setTextColor(getResources().getColor(R.color.pick_blue));
+            sharePhotosButton.setEnabled(true);
         }
     }
 

@@ -17,4 +17,8 @@
     <string name="pick_photo_size">(%1$s)</string>
     <string name="pick_photo_size_limit">最多选择%1$s张图片</string>
     <string name="pick_select">确定</string>
+
+    <string name="share">Share</string>
+    <string name="share_to_moments">朋友圈</string>
+    <string name="share_to_friend">好友</string>
 </resources>

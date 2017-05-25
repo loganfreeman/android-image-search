@@ -9,8 +9,10 @@
     android:orientation="horizontal">
 
     <FrameLayout
-        android:layout_width="100dp"
+        android:layout_width="wrap_content"
         android:layout_height="50dp"
+        android:layout_marginRight="10sp"
+        android:layout_marginLeft="10sp"
         android:layout_gravity="bottom">
 
         <TextView
@@ -32,13 +34,35 @@
         android:layout_gravity="bottom"
         android:layout_weight="1" />
 
-    <TextView
+    <Button
         android:id="@+id/tv_pick_photo"
-        android:layout_width="100dp"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_gravity="bottom"
+        android:layout_marginRight="10sp"
+        android:gravity="center"
+        android:text="@string/share"
+        android:textColor="@color/pick_gray"
+        android:textSize="16sp" />
+
+    <Button
+        android:id="@+id/tv_share_photo_to_friend"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_marginRight="10sp"
+        android:layout_gravity="bottom"
+        android:gravity="center"
+        android:text="@string/share_to_friend"
+        android:textColor="@color/pick_gray"
+        android:textSize="16sp" />
+
+    <Button
+        android:id="@+id/tv_share_photo_to_moments"
+        android:layout_width="wrap_content"
         android:layout_height="50dp"
         android:layout_gravity="bottom"
         android:gravity="center"
-        android:text="@string/pick_pick"
+        android:text="@string/share_to_moments"
         android:textColor="@color/pick_gray"
         android:textSize="16sp" />
 
