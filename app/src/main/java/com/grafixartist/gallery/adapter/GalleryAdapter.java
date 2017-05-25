@@ -47,7 +47,6 @@ import java.util.Map;
  */
 public class GalleryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    public static Map<String, Uri> cache = new HashMap<String, Uri>();
 
     ImageListActivity context;
     List<ImageModel> data = new ArrayList<>();
@@ -168,31 +167,12 @@ public class GalleryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 weekImage.setOnClickListener(imgClick);
             }
 
-            download(path);
+            ShareUtil.download(context, path);
 
 
         }
 
-        private void download(final String url) {
-            Glide
-                    .with(context)
-                    .load(url)
-                    .asBitmap()
-                    .toBytes(Bitmap.CompressFormat.JPEG, 80)
-                    .into(new SimpleTarget<byte[]>() {
-                        @Override public void onResourceReady(final byte[] resource, GlideAnimation<? super byte[]> glideAnimation) {
-                            new AsyncTask<Void, Void, Void>() {
-                                @Override protected Void doInBackground(Void... params) {
-                                    Uri uri = ShareUtil.getLocalBitmapUri(resource);
-                                    cache.put(url, uri);
-                                    return null;
-                                }
-                            }.execute();
-                        }
-                    })
-            ;
 
-        }
 
         View.OnClickListener moreClick = new View.OnClickListener() {
             @Override

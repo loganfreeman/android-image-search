@@ -22,6 +22,7 @@ import com.bumptech.glide.request.Request;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SizeReadyCallback;
 import com.bumptech.glide.request.target.Target;
+import com.grafixartist.gallery.utils.ShareUtil;
 import com.grafixartist.gallery.widget.MyToolbar;
 import com.shizhefei.view.largeimage.LargeImageView;
 import com.shizhefei.view.largeimage.factory.FileBitmapDecoderFactory;
@@ -147,6 +148,7 @@ public class PickPhotoPreviewActivity extends AppCompatActivity {
             container.addView(pic,params);
             String path = allImagePath.get(position).getUrl();
             setImage(pic, path);
+            ShareUtil.download(PickPhotoPreviewActivity.this, path);
             return pic;
         }
 

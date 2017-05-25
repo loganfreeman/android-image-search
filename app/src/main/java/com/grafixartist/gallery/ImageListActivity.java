@@ -22,6 +22,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
 import com.grafixartist.gallery.adapter.GalleryAdapter;
 import com.grafixartist.gallery.utils.PickUtils;
+import com.grafixartist.gallery.utils.ShareUtil;
 import com.grafixartist.gallery.widget.SpaceItemDecoration;
 
 import java.io.Serializable;
@@ -182,7 +183,7 @@ public class ImageListActivity extends AppCompatActivity {
 
         for(String path : adapter.getSelectPath() /* List of the files you want to send */) {
 
-            files.add(GalleryAdapter.cache.get(path));
+            files.add(ShareUtil.cache.get(path));
         }
 
         return files;
@@ -198,7 +199,7 @@ public class ImageListActivity extends AppCompatActivity {
 
         for(String path : adapter.getSelectPath() /* List of the files you want to send */) {
 
-            files.add(GalleryAdapter.cache.get(path));
+            files.add(ShareUtil.cache.get(path));
         }
 
         intent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, files);
