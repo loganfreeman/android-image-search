@@ -2,6 +2,7 @@ package com.grafixartist.gallery;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
@@ -125,7 +126,7 @@ public class ImageListActivity extends AppCompatActivity {
         selectImageSize = (TextView) findViewById(R.id.tv_preview_photo);
         selectImageSize.setText(String.valueOf("0"));
 
-        sharePhotosButton.setOnClickListener(selectClick);
+        sharePhotosButton.setOnClickListener(sharePhotoClick);
     }
 
     private RecyclerView.OnScrollListener scrollListener = new RecyclerView.OnScrollListener() {
@@ -147,12 +148,29 @@ public class ImageListActivity extends AppCompatActivity {
         }
     };
 
-    private View.OnClickListener selectClick = new View.OnClickListener() {
+    private View.OnClickListener sharePhotoClick = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            select();
+            shareSelectedPhotos();
         }
     };
+
+    private void shareSelectedPhotos() {
+        Intent intent = new Intent();
+        intent.setAction(Intent.ACTION_SEND_MULTIPLE);
+        intent.putExtra(Intent.EXTRA_SUBJECT, "Here are some files.");
+        intent.setType("image/jpeg"); /* This example is sharing jpeg images. */
+
+        ArrayList<Uri> files = new ArrayList<Uri>();
+
+        for(String path : adapter.getSelectPath() /* List of the files you want to send */) {
+
+            files.add(GalleryAdapter.cache.get(path));
+        }
+
+        intent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, files);
+        startActivity(intent);
+    }
 
     private void select() {
 

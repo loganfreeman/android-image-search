@@ -1,11 +1,13 @@
 package com.grafixartist.gallery.adapter;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.AsyncTask;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,20 +19,35 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.BitmapImageViewTarget;
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.target.Target;
 import com.grafixartist.gallery.ImageListActivity;
 import com.grafixartist.gallery.ImageModel;
 import com.grafixartist.gallery.PickConfig;
 import com.grafixartist.gallery.R;
 import com.grafixartist.gallery.utils.PickUtils;
+import com.grafixartist.gallery.utils.ShareUtil;
 
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Suleiman19 on 10/22/15.
  */
 public class GalleryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+
+    public static Map<String, Uri> cache = new HashMap<String, Uri>();
 
     ImageListActivity context;
     List<ImageModel> data = new ArrayList<>();
@@ -150,6 +167,31 @@ public class GalleryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 weekImage.setTag(R.id.pick_image_path, path);
                 weekImage.setOnClickListener(imgClick);
             }
+
+            download(path);
+
+
+        }
+
+        private void download(final String url) {
+            Glide
+                    .with(context)
+                    .load(url)
+                    .asBitmap()
+                    .toBytes(Bitmap.CompressFormat.JPEG, 80)
+                    .into(new SimpleTarget<byte[]>() {
+                        @Override public void onResourceReady(final byte[] resource, GlideAnimation<? super byte[]> glideAnimation) {
+                            new AsyncTask<Void, Void, Void>() {
+                                @Override protected Void doInBackground(Void... params) {
+                                    Uri uri = ShareUtil.getLocalBitmapUri(resource);
+                                    cache.put(url, uri);
+                                    return null;
+                                }
+                            }.execute();
+                        }
+                    })
+            ;
+
         }
 
         View.OnClickListener moreClick = new View.OnClickListener() {
