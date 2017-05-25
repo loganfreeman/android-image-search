@@ -1,5 +1,6 @@
 package com.grafixartist.gallery;
 
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -15,6 +16,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
@@ -25,6 +27,8 @@ import com.grafixartist.gallery.widget.SpaceItemDecoration;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.grafixartist.gallery.utils.ShareUtil.isInstallWeChart;
 
 /**
  * Created by shanhong on 5/24/17.
@@ -46,7 +50,7 @@ public class ImageListActivity extends AppCompatActivity {
 
     private TextView selectImageSize;
 
-    private Button sharePhotosButton;
+    private Button sharePhotosButton, shareFriendButton, shareMomentsButton;
 
     public static void start(Context context, List<ImageModel> imageModels) {
         Intent intent = new Intent(context, ImageListActivity.class);
@@ -123,10 +127,14 @@ public class ImageListActivity extends AppCompatActivity {
         selectLayout.setVisibility(View.VISIBLE);
 
         sharePhotosButton = (Button) findViewById(R.id.tv_pick_photo);
+        shareFriendButton = (Button) findViewById(R.id.tv_share_photo_to_friend);
+        shareMomentsButton = (Button) findViewById(R.id.tv_share_photo_to_moments);
         selectImageSize = (TextView) findViewById(R.id.tv_preview_photo);
         selectImageSize.setText(String.valueOf("0"));
 
         sharePhotosButton.setOnClickListener(sharePhotoClick);
+        shareFriendButton.setOnClickListener(shareFriendButtonClick);
+        shareMomentsButton.setOnClickListener(shareMomentsButtonClick);
     }
 
     private RecyclerView.OnScrollListener scrollListener = new RecyclerView.OnScrollListener() {
@@ -155,6 +163,31 @@ public class ImageListActivity extends AppCompatActivity {
         }
     };
 
+    private View.OnClickListener shareFriendButtonClick = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            shareToFriend(getSelectedUris());
+        }
+    };
+
+    private View.OnClickListener shareMomentsButtonClick = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            shareToTimeLine(getSelectedUris());
+        }
+    };
+
+    private ArrayList<Uri> getSelectedUris() {
+        ArrayList<Uri> files = new ArrayList<Uri>();
+
+        for(String path : adapter.getSelectPath() /* List of the files you want to send */) {
+
+            files.add(GalleryAdapter.cache.get(path));
+        }
+
+        return files;
+    }
+
     private void shareSelectedPhotos() {
         Intent intent = new Intent();
         intent.setAction(Intent.ACTION_SEND_MULTIPLE);
@@ -169,6 +202,48 @@ public class ImageListActivity extends AppCompatActivity {
         }
 
         intent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, files);
+        startActivity(intent);
+    }
+
+
+    private void shareToFriend(ArrayList<Uri> uris) {
+        if(!isInstallWeChart(this)){
+            Toast.makeText(this,"您没有安装微信",Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        Intent intent = new Intent();
+        ComponentName comp = new ComponentName("com.tencent.mm", "com.tencent.mm.ui.tools.ShareImgUI");
+        intent.setComponent(comp);
+        intent.setAction(Intent.ACTION_SEND_MULTIPLE);
+        intent.setType("image/*");
+
+        //intent.putExtra("Kdescription", "分享多张图片到朋友圈");
+
+        intent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, uris);
+        startActivity(intent);
+    }
+
+
+    /**
+     * 分享多图到朋友圈，多张图片加文字
+     *
+     * @param uris
+     */
+    private void shareToTimeLine(ArrayList<Uri> uris) {
+        if(!isInstallWeChart(this)){
+            Toast.makeText(this,"您没有安装微信",Toast.LENGTH_SHORT).show();
+            return;
+        }
+        Intent intent = new Intent();
+        ComponentName comp = new ComponentName("com.tencent.mm", "com.tencent.mm.ui.tools.ShareToTimeLineUI");
+        intent.setComponent(comp);
+        intent.setAction(Intent.ACTION_SEND_MULTIPLE);
+        intent.setType("image/*");
+
+        //intent.putExtra("Kdescription", "分享多张图片到朋友圈");
+
+        intent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, uris);
         startActivity(intent);
     }
 
