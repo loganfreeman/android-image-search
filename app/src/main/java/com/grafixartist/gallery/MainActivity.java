@@ -1,8 +1,11 @@
 package com.grafixartist.gallery;
 
 import android.Manifest;
+import android.annotation.TargetApi;
 import android.app.Activity;
+import android.app.SearchManager;
 import android.content.ContentResolver;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
@@ -19,30 +22,23 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
 import android.view.View;
-import android.widget.EditText;
-import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.amirarcane.recentimages.RecentImages;
-import com.amirarcane.recentimages.thumbnailOptions.ImageAdapter;
+import com.grafixartist.gallery.utils.ToastUtil;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
-import rx.Scheduler;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
-
-import static android.R.attr.data;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -52,9 +48,8 @@ public class MainActivity extends AppCompatActivity {
 
     private Uri imageUri;
 
-    private ImageView image;
+    private ImageView imageView;
 
-    private EditText searchEditText;
 
 
     @Override
@@ -73,15 +68,12 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+    }
 
-        searchEditText = (EditText) findViewById(R.id.search_text);
-
-        findViewById(R.id.search_button).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ImageSearchClient.searchAsync(searchEditText.getText().toString())
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
+    private void search(String query) {
+        ImageSearchClient.searchAsync(query)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<List<ImageModel>>() {
                     @Override
                     public void onCompleted() {
@@ -99,10 +91,46 @@ public class MainActivity extends AppCompatActivity {
                         ImageListActivity.start(MainActivity.this, imageModels);
                     }
                 });
-            }
-        });
+    }
+
+
+    @Override
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        getMenuInflater().inflate(R.menu.main, menu);
+
+
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+
+            SearchManager manager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+
+            SearchView search = (SearchView) menu.findItem(R.id.action_search).getActionView();
+
+            search.setSearchableInfo(manager.getSearchableInfo(getComponentName()));
+
+            search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+
+
+                @Override
+                public boolean onQueryTextSubmit(String query) {
+                    search(query);
+                    return false;
+                }
+
+                @Override
+                public boolean onQueryTextChange(String newText) {
+                    return false;
+                }
+            });
+
+        }
+
+        return true;
 
     }
+
+
 
     //take photo via camera intent
     public void takePhoto(View view) {
@@ -164,8 +192,8 @@ public class MainActivity extends AppCompatActivity {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            if(image != null) {
-                image.setImageBitmap(bitmap);
+            if(imageView != null) {
+                imageView.setImageBitmap(bitmap);
             }
         }
     }

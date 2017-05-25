@@ -45,6 +45,8 @@ public class ImageListActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         imageListView = (RecyclerView) findViewById(R.id.image_list_view);
 
         imageModels = getIntent().getExtras().getParcelableArrayList(MODELS);

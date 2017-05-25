@@ -24,37 +24,4 @@
 
 
 
-    <RelativeLayout
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:orientation="vertical"
-        >
-
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_centerInParent="true"
-            android:gravity="center"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <EditText
-                android:id="@+id/search_text"
-                android:layout_marginLeft="10sp"
-                android:layout_marginRight="10sp"
-                android:padding="10sp"
-                android:background="@drawable/edittextbackground"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-            <Button
-                android:id="@+id/search_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/action_search"
-                android:textSize="12sp" android:textStyle="bold" />
-        </LinearLayout>
-
-
-
-    </RelativeLayout>
-
-
 </android.support.design.widget.CoordinatorLayout>
