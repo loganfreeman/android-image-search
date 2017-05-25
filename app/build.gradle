@@ -34,4 +34,6 @@ dependencies {
     compile 'io.reactivex:rxandroid:1.1.0'
     // json
     compile 'com.google.code.gson:gson:2.4'
+
+    compile 'com.shizhefei:LargeImageView:1.0.7'
 }
