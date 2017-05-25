@@ -49,4 +49,6 @@ public class PickConfig {
     public static final String TOOLBAR_ICON_COLOR = "#FFFFFF";
     public static final String TOOLBAR_COLOR = "#191919" ;
     public static final String INTENT_QUERY = "QUERY";
+
+    public static final int QUALITY = 100;
 }

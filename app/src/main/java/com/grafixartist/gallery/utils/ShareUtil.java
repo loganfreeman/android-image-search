@@ -11,6 +11,7 @@ import android.os.Environment;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
+import com.grafixartist.gallery.PickConfig;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -36,7 +37,7 @@ public class ShareUtil {
                 .with(context)
                 .load(url)
                 .asBitmap()
-                .toBytes(Bitmap.CompressFormat.JPEG, 80)
+                .toBytes(Bitmap.CompressFormat.JPEG, PickConfig.QUALITY)
                 .into(new SimpleTarget<byte[]>() {
                     @Override public void onResourceReady(final byte[] resource, GlideAnimation<? super byte[]> glideAnimation) {
                         new AsyncTask<Void, Void, Void>() {
