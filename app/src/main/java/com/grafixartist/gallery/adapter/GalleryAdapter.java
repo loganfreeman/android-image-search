@@ -53,14 +53,7 @@ public class GalleryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         int screenWidth = PickUtils.getInstance(context).getWidthPixels();
         int space = PickUtils.getInstance(context).dp2px(PickConfig.ITEM_SPACE);
 
-        Log.i("Scale", space+"");
-
-        Log.i("Scale", screenWidth+"");
-
-
         scaleSize = (screenWidth - (PickConfig.DEFAULT_SPAN_COUNT + 1) * space) / PickConfig.DEFAULT_SPAN_COUNT;
-
-        Log.i("Scale", scaleSize+"");
 
     }
 
