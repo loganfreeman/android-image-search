@@ -53,8 +53,11 @@ public class ImageListActivity extends AppCompatActivity {
 
     private Button sharePhotosButton, shareFriendButton, shareMomentsButton;
 
-    public static void start(Context context, List<ImageModel> imageModels) {
+    private String query;
+
+    public static void start(Context context, List<ImageModel> imageModels, String query) {
         Intent intent = new Intent(context, ImageListActivity.class);
+        intent.putExtra(PickConfig.INTENT_QUERY, query);
         intent.putParcelableArrayListExtra(MODELS, (ArrayList<? extends Parcelable>) imageModels);
         context.startActivity(intent);
     }
@@ -63,6 +66,8 @@ public class ImageListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_image_list);
+
+        query = getIntent().getStringExtra(PickConfig.INTENT_QUERY);
 
         manager = Glide.with(this);
 
@@ -282,5 +287,9 @@ public class ImageListActivity extends AppCompatActivity {
                 updateSelectText(String.valueOf(selectPath.size()));
             }
         }
+    }
+
+    public void loadmore() {
+        
     }
 }

@@ -8,6 +8,7 @@ import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,6 +27,7 @@ import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.target.Target;
 import com.grafixartist.gallery.ImageListActivity;
 import com.grafixartist.gallery.ImageModel;
+import com.grafixartist.gallery.ImageSearchClient;
 import com.grafixartist.gallery.PickConfig;
 import com.grafixartist.gallery.R;
 import com.grafixartist.gallery.utils.PickUtils;
@@ -95,6 +97,10 @@ public class GalleryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
         GridImageViewHolder gridImageViewHolder = (GridImageViewHolder) holder;
         gridImageViewHolder.bindItem(data.get(position).getUrl());
+
+        if (position == data.size() - 1) {
+            context.loadmore();
+        }
 
     }
 

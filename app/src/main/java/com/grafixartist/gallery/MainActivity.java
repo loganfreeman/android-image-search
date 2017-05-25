@@ -70,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void search(String query) {
+    private void search(final String query) {
         ImageSearchClient.searchAsync(query)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -87,8 +87,7 @@ public class MainActivity extends AppCompatActivity {
 
                     @Override
                     public void onNext(List<ImageModel> imageModels) {
-                        Log.i("Image search: ", ""+imageModels.size());
-                        ImageListActivity.start(MainActivity.this, imageModels);
+                        ImageListActivity.start(MainActivity.this, imageModels, query);
                     }
                 });
     }
