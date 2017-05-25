@@ -53,7 +53,7 @@ public class ImageListActivity extends AppCompatActivity {
 
         GalleryAdapter adapter = new GalleryAdapter(this, imageModels);
 
-        lLayout = new GridLayoutManager(this, 4);
+        lLayout = new GridLayoutManager(this, 3);
 
         imageListView.setLayoutManager(lLayout);
 
