@@ -1,6 +1,8 @@
 package com.loganfreeman.gallery;
 
+import android.content.ComponentName;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Parcelable;
@@ -25,6 +27,7 @@ import com.loganfreeman.gallery.adapter.PhotoItemAdapter;
 import com.loganfreeman.gallery.utils.ImageUtil;
 import com.loganfreeman.gallery.utils.PhotoItem;
 import com.loganfreeman.gallery.utils.PickUtils;
+import com.loganfreeman.gallery.utils.ShareUtil;
 import com.loganfreeman.gallery.widget.SpaceItemDecoration;
 
 import java.io.File;
@@ -37,6 +40,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 import static com.loganfreeman.gallery.utils.ImageUtil.IMAGE_FILTER;
+import static com.loganfreeman.gallery.utils.ShareUtil.isInstallWeChart;
 
 /**
  * Created by shanhong on 5/26/17.
@@ -77,6 +81,76 @@ public class ImageSelectActivity extends AppCompatActivity {
 
         initRecyclerView();
 
+    }
+
+    private ArrayList<Uri> getSelectedUris() {
+        ArrayList<Uri> files = new ArrayList<Uri>();
+
+        for(String path : adapter.getSelectPath() /* List of the files you want to send */) {
+
+            files.add(ShareUtil.cache.get(path));
+        }
+
+        return files;
+    }
+
+    private void shareSelectedPhotos() {
+        Intent intent = new Intent();
+        intent.setAction(Intent.ACTION_SEND_MULTIPLE);
+        intent.putExtra(Intent.EXTRA_SUBJECT, "Here are some files.");
+        intent.setType("image/jpeg"); /* This example is sharing jpeg images. */
+
+        ArrayList<Uri> files = new ArrayList<Uri>();
+
+        for(String path : adapter.getSelectPath() /* List of the files you want to send */) {
+
+            files.add(ShareUtil.cache.get(path));
+        }
+
+        intent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, files);
+        startActivity(intent);
+    }
+
+
+    private void shareToFriend(ArrayList<Uri> uris) {
+        if(!isInstallWeChart(this)){
+            Toast.makeText(this,"您没有安装微信",Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        Intent intent = new Intent();
+        ComponentName comp = new ComponentName("com.tencent.mm", "com.tencent.mm.ui.tools.ShareImgUI");
+        intent.setComponent(comp);
+        intent.setAction(Intent.ACTION_SEND_MULTIPLE);
+        intent.setType("image/*");
+
+        //intent.putExtra("Kdescription", "分享多张图片到朋友圈");
+
+        intent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, uris);
+        startActivity(intent);
+    }
+
+
+    /**
+     * 分享多图到朋友圈，多张图片加文字
+     *
+     * @param uris
+     */
+    private void shareToTimeLine(ArrayList<Uri> uris) {
+        if(!isInstallWeChart(this)){
+            Toast.makeText(this,"您没有安装微信",Toast.LENGTH_SHORT).show();
+            return;
+        }
+        Intent intent = new Intent();
+        ComponentName comp = new ComponentName("com.tencent.mm", "com.tencent.mm.ui.tools.ShareToTimeLineUI");
+        intent.setComponent(comp);
+        intent.setAction(Intent.ACTION_SEND_MULTIPLE);
+        intent.setType("image/*");
+
+        //intent.putExtra("Kdescription", "分享多张图片到朋友圈");
+
+        intent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, uris);
+        startActivity(intent);
     }
 
 

@@ -30,7 +30,7 @@
     <string name="downloads">Downloads</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="delete_all">Delete all</string>
-    <string name="select_all">Select all</string>
+    <string name="delete_all">Delete</string>
+    <string name="select_all">Select</string>
     <string name="image_select_title">Downloaded images</string>
 </resources>
