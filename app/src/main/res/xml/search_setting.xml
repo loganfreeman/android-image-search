@@ -5,7 +5,6 @@
         android:title="Size"
         android:dialogTitle="@string/pref_size"
         android:key="sizePref"
-        android:defaultValue="@string/pref_size_default_val"
         android:entries="@array/sizeArray"
         android:entryValues="@array/sizeValues" />
 
@@ -13,7 +12,6 @@
         android:title="Type"
         android:dialogTitle="@string/pref_type"
         android:key="typePref"
-        android:defaultValue="@string/pref_type_default_val"
         android:entries="@array/typeArray"
         android:entryValues="@array/typeValues" />
 
