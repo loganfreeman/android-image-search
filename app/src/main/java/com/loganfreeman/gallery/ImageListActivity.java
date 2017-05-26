@@ -79,9 +79,16 @@ public class ImageListActivity extends AppCompatActivity {
         initRecyclerView();
 
         initSelectLayout();
+
+        initShareButtons();
     }
 
-
+    private void initShareButtons() {
+        if(isInstallWeChart(this)) {
+            shareFriendButton.setVisibility(View.VISIBLE);
+            shareMomentsButton.setVisibility(View.VISIBLE);
+        }
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

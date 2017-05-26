@@ -63,6 +63,12 @@ public class ImageSelectActivity extends AppCompatActivity {
     @Bind(R.id.delete_all)
     Button deleteAllBtn;
 
+    @Bind(R.id.share_to_friend)
+    Button shareToFriendBtn;
+
+    @Bind(R.id.share_to_moments)
+    Button shareToMomentBtn;
+
     PhotoItemAdapter adapter;
 
     private GridLayoutManager lLayout;
@@ -82,6 +88,15 @@ public class ImageSelectActivity extends AppCompatActivity {
 
         initRecyclerView();
 
+        initShareButtons();
+
+    }
+
+    private void initShareButtons() {
+        if(isInstallWeChart(this)) {
+            shareToFriendBtn.setVisibility(View.VISIBLE);
+            shareToMomentBtn.setVisibility(View.VISIBLE);
+        }
     }
 
     private ArrayList<Uri> getSelectedUris() {

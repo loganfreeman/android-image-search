@@ -49,6 +49,7 @@
         android:id="@+id/tv_share_photo_to_friend"
         android:layout_width="wrap_content"
         android:layout_height="50dp"
+        android:visibility="gone"
         android:layout_marginRight="10sp"
         android:layout_gravity="bottom"
         android:gravity="center"
@@ -62,6 +63,7 @@
         android:layout_height="50dp"
         android:layout_gravity="bottom"
         android:gravity="center"
+        android:visibility="gone"
         android:text="@string/share_to_moments"
         android:textColor="@color/pick_gray"
         android:textSize="16sp" />
