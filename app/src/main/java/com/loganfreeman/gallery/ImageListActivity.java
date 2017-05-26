@@ -253,9 +253,7 @@ public class ImageListActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    private void select() {
 
-    }
 
     public void updateSelectText(String selectSize) {
         if (selectSize.equals("0")) {
@@ -289,7 +287,5 @@ public class ImageListActivity extends AppCompatActivity {
         }
     }
 
-    public void loadmore() {
 
-    }
 }

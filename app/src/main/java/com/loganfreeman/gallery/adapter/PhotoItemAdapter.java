@@ -88,6 +88,10 @@ public class PhotoItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         this.selectPath = selectPath;
     }
 
+    public void setData(List<PhotoItem> data) {
+        this.data = data;
+    }
+
     private class GridImageViewHolder extends RecyclerView.ViewHolder {
 
         ImageView gridImage, selectImage;

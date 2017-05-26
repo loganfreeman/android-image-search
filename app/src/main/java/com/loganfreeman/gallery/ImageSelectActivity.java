@@ -39,6 +39,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+import static android.R.attr.data;
 import static com.loganfreeman.gallery.utils.ImageUtil.IMAGE_FILTER;
 import static com.loganfreeman.gallery.utils.ShareUtil.isInstallWeChart;
 
@@ -88,31 +89,25 @@ public class ImageSelectActivity extends AppCompatActivity {
 
         for(String path : adapter.getSelectPath() /* List of the files you want to send */) {
 
-            files.add(ShareUtil.cache.get(path));
+            files.add(Uri.fromFile(new File(path)));
         }
 
         return files;
     }
 
-    private void shareSelectedPhotos() {
+    @OnClick(R.id.share)
+    void shareSelectedPhotos() {
         Intent intent = new Intent();
         intent.setAction(Intent.ACTION_SEND_MULTIPLE);
         intent.putExtra(Intent.EXTRA_SUBJECT, "Here are some files.");
         intent.setType("image/jpeg"); /* This example is sharing jpeg images. */
 
-        ArrayList<Uri> files = new ArrayList<Uri>();
-
-        for(String path : adapter.getSelectPath() /* List of the files you want to send */) {
-
-            files.add(ShareUtil.cache.get(path));
-        }
-
-        intent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, files);
+        intent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, getSelectedUris());
         startActivity(intent);
     }
 
-
-    private void shareToFriend(ArrayList<Uri> uris) {
+    @OnClick(R.id.share_to_friend)
+    void shareToFriend(View e) {
         if(!isInstallWeChart(this)){
             Toast.makeText(this,"您没有安装微信",Toast.LENGTH_SHORT).show();
             return;
@@ -126,7 +121,7 @@ public class ImageSelectActivity extends AppCompatActivity {
 
         //intent.putExtra("Kdescription", "分享多张图片到朋友圈");
 
-        intent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, uris);
+        intent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, getSelectedUris());
         startActivity(intent);
     }
 
@@ -134,9 +129,9 @@ public class ImageSelectActivity extends AppCompatActivity {
     /**
      * 分享多图到朋友圈，多张图片加文字
      *
-     * @param uris
      */
-    private void shareToTimeLine(ArrayList<Uri> uris) {
+    @OnClick(R.id.share_to_moments)
+    void shareToTimeLine() {
         if(!isInstallWeChart(this)){
             Toast.makeText(this,"您没有安装微信",Toast.LENGTH_SHORT).show();
             return;
@@ -149,7 +144,7 @@ public class ImageSelectActivity extends AppCompatActivity {
 
         //intent.putExtra("Kdescription", "分享多张图片到朋友圈");
 
-        intent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, uris);
+        intent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, getSelectedUris());
         startActivity(intent);
     }
 
@@ -246,11 +241,27 @@ public class ImageSelectActivity extends AppCompatActivity {
 
     @OnClick(R.id.delete_all)
     void deleteAll(View v) {
-
+        for(String path: adapter.getSelectPath()) {
+            File file = new File(path);
+            file.delete();
+        }
+        adapter.setData(listFiles());
+        adapter.notifyDataSetChanged();
     }
 
     @OnClick(R.id.select_all)
     void selectAll(View v) {
+        if (((CheckBox) v).isChecked()) {
+            List<String> selectPath = new ArrayList<String>();
+            for(PhotoItem item: adapter.getData()) {
+                selectPath.add(item.getPath());
+            }
+            adapter.setSelectPath(selectPath);
+            adapter.notifyDataSetChanged();
+        }else {
+            adapter.setSelectPath(new ArrayList<String>());
+            adapter.notifyDataSetChanged();
+        }
 
     }
 }
