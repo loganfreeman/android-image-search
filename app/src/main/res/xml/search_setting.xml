@@ -4,6 +4,7 @@
     <ListPreference
         android:title="Size"
         android:dialogTitle="@string/pref_size"
+        android:summary="%s"
         android:key="sizePref"
         android:entries="@array/sizeArray"
         android:entryValues="@array/sizeValues" />
@@ -11,6 +12,7 @@
     <ListPreference
         android:title="Type"
         android:dialogTitle="@string/pref_type"
+        android:summary="%s"
         android:key="typePref"
         android:entries="@array/typeArray"
         android:entryValues="@array/typeValues" />
