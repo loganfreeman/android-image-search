@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="sizeArray">
+        <item>Large</item>
+        <item>Any size</item>
+        <item>Medium</item>
+        <item>Icon</item>
+        <item>Larger than 2MP</item>
+        <item>Larger than 4MP</item>
+    </string-array>
+
+    <string-array name="sizeValues">
+        <item>l</item>
+        <item>0</item>
+        <item>m</item>
+        <item>i</item>
+        <item>2mp</item>
+        <item>4mp</item>
+    </string-array>
+
+
+    <string-array name="typeArray">
+        <item>Face</item>
+        <item>Photo</item>
+        <item>Any type</item>
+        <item>Clip art</item>
+        <item>Line drawing</item>
+        <item>Animated</item>
+    </string-array>
+
+    <string-array name="typeValues">
+        <item>face</item>
+        <item>photo</item>
+        <item></item>
+        <item>clipart</item>
+        <item>lineart</item>
+        <item>animated</item>
+    </string-array>
+</resources>

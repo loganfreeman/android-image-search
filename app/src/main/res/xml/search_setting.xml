@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <ListPreference
+        android:title="Size"
+        android:dialogTitle="@string/pref_size"
+        android:key="sizePref"
+        android:defaultValue="@string/pref_size_default_val"
+        android:entries="@array/sizeArray"
+        android:entryValues="@array/sizeValues" />
+
+    <ListPreference
+        android:title="Type"
+        android:dialogTitle="@string/pref_type"
+        android:key="typePref"
+        android:defaultValue="@string/pref_type_default_val"
+        android:entries="@array/typeArray"
+        android:entryValues="@array/typeValues" />
+
+</PreferenceScreen>

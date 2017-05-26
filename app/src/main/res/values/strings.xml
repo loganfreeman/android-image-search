@@ -21,4 +21,8 @@
     <string name="share">Share</string>
     <string name="share_to_moments">朋友圈</string>
     <string name="share_to_friend">好友</string>
+    <string name="pref_size">Set image size</string>
+    <string name="pref_type">Set image type</string>
+    <string name="pref_type_default_val">photo</string>
+    <string name="pref_size_default_val">1</string>
 </resources>
