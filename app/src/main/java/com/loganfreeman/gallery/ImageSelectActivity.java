@@ -92,6 +92,25 @@ public class ImageSelectActivity extends AppCompatActivity {
         return true;
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == 0) {
+            return;
+        }
+        if (requestCode == PickConfig.LIST_PHOTO_DATA) {
+
+        } else if (requestCode == PickConfig.CAMERA_PHOTO_DATA) {
+
+        }else if(requestCode == PickConfig.PREVIEW_PHOTO_DATA){
+            if (data != null) {
+                List<String> selectPath = (List<String>) data.getSerializableExtra(PickConfig.INTENT_IMG_LIST_SELECT);
+                adapter.setSelectPath(selectPath);
+                adapter.notifyDataSetChanged();
+            }
+        }
+    }
+
     private void initRecyclerView() {
         photoList.setItemAnimator(new DefaultItemAnimator());
 
@@ -142,7 +161,7 @@ public class ImageSelectActivity extends AppCompatActivity {
         public void onClick(View v) {
             String imgPath = (String) v.getTag(R.id.pick_image_path);
             Intent intent = new Intent();
-            intent.setClass(ImageSelectActivity.this, PickPhotoPreviewActivity.class);
+            intent.setClass(ImageSelectActivity.this, LocalPhotoPreviewActivity.class);
             intent.putExtra(PickConfig.INTENT_IMG_PATH, imgPath);
             intent.putParcelableArrayListExtra(PickConfig.INTENT_IMG_LIST, (ArrayList<? extends Parcelable>) adapter.getData());
             intent.putExtra(PickConfig.INTENT_IMG_LIST_SELECT, (Serializable) adapter.getSelectPath());
