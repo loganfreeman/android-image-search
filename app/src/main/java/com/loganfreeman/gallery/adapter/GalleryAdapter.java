@@ -84,10 +84,6 @@ public class GalleryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         GridImageViewHolder gridImageViewHolder = (GridImageViewHolder) holder;
         gridImageViewHolder.bindItem(data.get(position));
 
-        if (position == data.size() - 1) {
-            context.loadmore();
-        }
-
     }
 
     @Override

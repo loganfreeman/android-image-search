@@ -295,7 +295,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 ToastUtil.showShort("You clicked about");
                 break;
             case R.id.downloads:
-                ToastUtil.showShort("You clicked downloads");
+                startActivity(new Intent(this, ImageSelectActivity.class));
                 break;
             case R.id.nav_set:
                 ToastUtil.showShort("You clicked setting");

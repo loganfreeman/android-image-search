@@ -26,6 +26,8 @@
         <activity android:name="com.loganfreeman.gallery.PickPhotoPreviewActivity"></activity>
 
         <activity android:name="com.loganfreeman.gallery.UserSettingActivity"></activity>
+
+        <activity android:name=".ImageSelectActivity"></activity>
     </application>
 
 </manifest>

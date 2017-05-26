@@ -4,4 +4,5 @@
     <item name="pick_image_path" type="id"/>
     <item name="pick_dir_name" type="id"/>
     <item name="pick_is_select" type="id"/>
+    <item name="image_select_title" type="id">Downloaded images</item>
 </resources>
