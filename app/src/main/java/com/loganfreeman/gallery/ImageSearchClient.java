@@ -1,9 +1,12 @@
 package com.loganfreeman.gallery;
 
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import com.loganfreeman.gallery.base.BaseApplication;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -14,7 +17,9 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.Callable;
 
 import rx.Observable;
@@ -25,8 +30,27 @@ import rx.Observable;
 
 public class ImageSearchClient {
     public static final String URL_PREFIX = "https://www.google.com/search?q=";
-    public static final String RESOLUTION = "%20high%20resolution";
+
+    public static Map<String, String> params = new HashMap<String, String>();
+
+    static {
+        params.put("tbm", "isch");
+    }
     public static String contructUrl(String keyword) {
+
+        SharedPreferences SP = PreferenceManager.getDefaultSharedPreferences(BaseApplication.getAppContext());
+
+        String size = SP.getString("sizePref", null);
+
+        String type = SP.getString("typePref", null);
+
+        Map<String, String> searchParams = new HashMap<String, String>();
+
+        searchParams.put("isz", size);
+
+        searchParams.put("itp", type);
+
+        String tbs = generateSearchParam(searchParams);
 
         String query = null;
         try {
@@ -35,7 +59,45 @@ public class ImageSearchClient {
 
         }
 
-        return URL_PREFIX + query + "&tbm=isch&source=lnms&sa=X&ved=0ahUKEwipm_WnuonUAhVlsFQKHYpxB4wQ_AUIBigB&biw=1920&bih=960#q=mushroom&tbm=isch&tbs=isz:l";
+        return URL_PREFIX + query + "&tbm=isch&source=lnms&sa=X" + tbs;
+    }
+    public static String queryBuilder(Map<String, String> params) {
+        StringBuilder sb = new StringBuilder();
+        for(HashMap.Entry<String, String> e : params.entrySet()){
+            if(sb.length() > 0){
+                sb.append('&');
+            }
+            try {
+                sb.append(URLEncoder.encode(e.getKey(), "UTF-8")).append('=').append(URLEncoder.encode(e.getValue(), "UTF-8"));
+            } catch (UnsupportedEncodingException e1) {
+
+            }
+        }
+        return sb.toString();
+    }
+
+    public static boolean isNotNullAndEmpty(String str) {
+        return str != null && !str.isEmpty();
+    }
+
+    public static String generateSearchParam(Map<String, String> params) {
+        StringBuilder sb = new StringBuilder();
+        for(HashMap.Entry<String, String> e : params.entrySet()){
+            if(sb.length() > 0){
+                sb.append(',');
+            }
+            if(isNotNullAndEmpty(e.getValue())) {
+                sb.append(e.getKey()).append(':').append(e.getValue());
+            }
+
+        }
+
+        if(sb.length() > 0) {
+            return "&tbs=" + sb.toString();
+        }else {
+            return "";
+        }
+
     }
     public static List<ImageModel> search(String keyword) {
         List<ImageModel> images = new ArrayList<ImageModel>();
