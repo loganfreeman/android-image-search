@@ -9,6 +9,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.loganfreeman.gallery.ImageModel;
 import com.loganfreeman.gallery.PickConfig;
@@ -32,7 +33,7 @@ public class PhotoItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     private View.OnClickListener imgClick;
 
-    private List<PhotoItem> selectPath;
+    private List<String> selectPath = new ArrayList<>();
 
     private int scaleSize;
 
@@ -106,6 +107,57 @@ public class PhotoItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
             gridImage.setImageURI(imageModel.getUri());
 
+            gridImage.setTag(R.id.pick_image_path, imageModel.getPath());
+
+            if (selectPath.contains(imageModel.getPath())) {
+                select();
+            } else {
+                unSelect();
+            }
+
+            selectLayout.setTag(R.id.pick_image_path, imageModel.getPath());
+
+            selectLayout.setOnClickListener(moreClick);
+
+
+
         }
+
+        void addPath(String path) {
+            selectPath.add(path);
+        }
+
+        void removePath(String path) {
+            selectPath.remove(path);
+        }
+
+        void select() {
+            selectImage.setBackgroundDrawable(context.getResources().getDrawable(R.mipmap.pick_ic_select));
+            selectImage.setTag(R.id.pick_is_select, true);
+        }
+
+        void unSelect() {
+            selectImage.setBackgroundDrawable(context.getResources().getDrawable(R.mipmap.pick_ic_un_select));
+            selectImage.setTag(R.id.pick_is_select, false);
+        }
+
+        View.OnClickListener moreClick = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String path = (String) v.getTag(R.id.pick_image_path);
+                boolean isSelect = (boolean) selectImage.getTag(R.id.pick_is_select);
+                if (isSelect) {
+                    if (selectPath.contains(path)) {
+                        unSelect();
+                        removePath(path);
+                    }
+                } else {
+                    if (!selectPath.contains(path)) {
+                        select();
+                        addPath(path);
+                    }
+                }
+            }
+        };
     }
 }
