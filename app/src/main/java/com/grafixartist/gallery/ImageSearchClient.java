@@ -69,7 +69,7 @@ public class ImageSearchClient {
     }
 
     public static ImageModel fromJsonObject(JsonObject json) {
-        return new ImageModel(json.get("ou").getAsString());
+        return new ImageModel(json.get("ou").getAsString(), json.get("oh").toString(), json.get("ow").toString());
     }
 
 

@@ -1,10 +1,6 @@
 package com.grafixartist.gallery.adapter;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.net.Uri;
-import android.os.AsyncTask;
-import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.v7.widget.RecyclerView;
@@ -14,35 +10,23 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.load.resource.drawable.GlideDrawable;
-import com.bumptech.glide.request.animation.GlideAnimation;
-import com.bumptech.glide.request.target.BitmapImageViewTarget;
-import com.bumptech.glide.request.target.SimpleTarget;
-import com.bumptech.glide.request.target.Target;
 import com.grafixartist.gallery.ImageListActivity;
 import com.grafixartist.gallery.ImageModel;
-import com.grafixartist.gallery.ImageSearchClient;
 import com.grafixartist.gallery.PickConfig;
 import com.grafixartist.gallery.R;
 import com.grafixartist.gallery.utils.PickUtils;
 import com.grafixartist.gallery.utils.ShareUtil;
 
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by Suleiman19 on 10/22/15.
@@ -96,7 +80,7 @@ public class GalleryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
 
         GridImageViewHolder gridImageViewHolder = (GridImageViewHolder) holder;
-        gridImageViewHolder.bindItem(data.get(position).getUrl());
+        gridImageViewHolder.bindItem(data.get(position));
 
         if (position == data.size() - 1) {
             context.loadmore();
@@ -129,11 +113,15 @@ public class GalleryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
         private FrameLayout selectLayout;
 
-        private int maxSelectSize = 9;
+        private int maxSelectSize = PickConfig.MAX_SELECT_SIZE;
+
+        private TextView textItemdesc;
 
 
         public GridImageViewHolder(View itemView) {
             super(itemView);
+
+            textItemdesc = (TextView) itemView.findViewById(R.id.textItemdesc);
 
             gridImage = (ImageView) itemView.findViewById(R.id.item_img);
 
@@ -149,8 +137,12 @@ public class GalleryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             weekImage = imageViewWeakReference.get();
         }
 
-        public void bindItem(final String path) {
-            if (selectPath.contains(path)) {
+        public void bindItem(final ImageModel imageModel) {
+
+            textItemdesc.setText(imageModel.getDimension());
+
+            final String url = imageModel.getUrl();
+            if (selectPath.contains(url)) {
                 select();
             } else {
                 unSelect();
@@ -160,20 +152,20 @@ public class GalleryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     @Override
                     public void run() {
                         manager
-                                .load(path)
+                                .load(url)
                                 .thumbnail(0.5f)
                                 .override(200,200)
                                 .crossFade()
                                 .into(weekImage);
                     }
                 });
-                selectLayout.setTag(R.id.pick_image_path, path);
+                selectLayout.setTag(R.id.pick_image_path, url);
                 selectLayout.setOnClickListener(moreClick);
-                weekImage.setTag(R.id.pick_image_path, path);
+                weekImage.setTag(R.id.pick_image_path, url);
                 weekImage.setOnClickListener(imgClick);
             }
 
-            ShareUtil.download(context, path);
+            ShareUtil.download(context, url);
 
 
         }

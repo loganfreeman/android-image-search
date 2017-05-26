@@ -35,5 +35,5 @@ dependencies {
     // json
     compile 'com.google.code.gson:gson:2.4'
 
-    compile 'com.shizhefei:LargeImageView:1.0.7'
+    compile 'com.android.support:cardview-v7:23.1.0'
 }

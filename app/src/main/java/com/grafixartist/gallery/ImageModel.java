@@ -10,12 +10,19 @@ public class ImageModel implements Parcelable {
 
     String url;
 
-    public ImageModel(String url) {
+    private String height;
+    private String width;
+
+    public ImageModel(String url, String height, String width) {
         this.url = url;
+        this.height = height;
+        this.width = width;
     }
 
     protected ImageModel(Parcel in) {
         url = in.readString();
+        height = in.readString();
+        width = in.readString();
     }
 
     public static final Creator<ImageModel> CREATOR = new Creator<ImageModel>() {
@@ -48,5 +55,19 @@ public class ImageModel implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(url);
+        dest.writeString(height);
+        dest.writeString(width);
+    }
+
+    public String getHeight() {
+        return height;
+    }
+
+    public String getWidth() {
+        return width;
+    }
+
+    public String getDimension() {
+        return getWidth() + " x " + getHeight();
     }
 }

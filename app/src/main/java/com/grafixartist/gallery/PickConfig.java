@@ -51,4 +51,5 @@ public class PickConfig {
     public static final String INTENT_QUERY = "QUERY";
 
     public static final int QUALITY = 100;
+    public static final int MAX_SELECT_SIZE = 9;
 }

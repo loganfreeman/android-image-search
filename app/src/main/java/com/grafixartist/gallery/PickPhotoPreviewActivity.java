@@ -24,8 +24,6 @@ import com.bumptech.glide.request.target.SizeReadyCallback;
 import com.bumptech.glide.request.target.Target;
 import com.grafixartist.gallery.utils.ShareUtil;
 import com.grafixartist.gallery.widget.MyToolbar;
-import com.shizhefei.view.largeimage.LargeImageView;
-import com.shizhefei.view.largeimage.factory.FileBitmapDecoderFactory;
 
 import java.io.File;
 import java.io.Serializable;
