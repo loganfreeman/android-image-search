@@ -43,13 +43,17 @@ public class GalleryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     private View.OnClickListener imgClick;
 
-    public GalleryAdapter(Context context, RequestManager manager, List<ImageModel> data,  View.OnClickListener imgClick) {
+    private int maxSelection;
+
+    public GalleryAdapter(Context context, RequestManager manager, List<ImageModel> data,  View.OnClickListener imgClick, int maxSelection) {
         this.context = (ImageListActivity) context;
         this.data = data;
         this.manager = manager;
         selectPath = new ArrayList<>();
 
         this.imgClick = imgClick;
+
+        this.maxSelection = maxSelection;
 
         buildScaleSize();
     }
@@ -110,8 +114,6 @@ public class GalleryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         ImageView gridImage, selectImage, weekImage;
 
         private FrameLayout selectLayout;
-
-        private int maxSelectSize = PickConfig.MAX_SELECT_SIZE;
 
         private TextView textItemdesc;
 
@@ -181,13 +183,13 @@ public class GalleryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         removePath(path);
                     }
                 } else {
-                    if (selectPath.size() < maxSelectSize) {
+                    if (selectPath.size() < maxSelection) {
                         if (!selectPath.contains(path)) {
                             select();
                             addPath(path);
                         }
                     } else {
-                        Toast.makeText(context, String.format(context.getString(R.string.pick_photo_size_limit), String.valueOf(maxSelectSize)), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, String.format(context.getString(R.string.pick_photo_size_limit), String.valueOf(maxSelection)), Toast.LENGTH_SHORT).show();
                     }
                 }
             }

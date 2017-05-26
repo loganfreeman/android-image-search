@@ -106,7 +106,7 @@ public class ImageListActivity extends AppCompatActivity {
 
         imageModels = getIntent().getExtras().getParcelableArrayList(MODELS);
 
-        adapter = new GalleryAdapter(this, manager, imageModels, imageClick);
+        adapter = new GalleryAdapter(this, manager, imageModels, imageClick, PickConfig.MAX_SELECT_SIZE);
 
         lLayout = new GridLayoutManager(this, PickConfig.DEFAULT_SPAN_COUNT);
 

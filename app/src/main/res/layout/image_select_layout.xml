@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/select_layout"
+    android:layout_width="match_parent"
+    android:layout_height="50dp"
+    android:visibility="gone"
+    android:background="@drawable/pick_bg"
+    android:orientation="horizontal">
+
+
+    <CheckBox
+        android:id="@+id/select_all"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_gravity="bottom"
+        android:layout_marginRight="10sp"
+        android:gravity="center"
+        android:text="@string/select_all"
+        android:textColor="@color/pick_gray"
+        android:textSize="16sp" />
+
+    <Button
+        android:id="@+id/delete_all"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_marginRight="10sp"
+        android:layout_gravity="bottom"
+        android:gravity="center"
+        android:text="@string/delete_all"
+        android:textColor="@color/pick_gray"
+        android:textSize="16sp" />
+
+
+</LinearLayout>
