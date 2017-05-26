@@ -29,7 +29,7 @@ import java.util.List;
 public class PhotoItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     Context context;
-    List<PhotoItem> data = new ArrayList<>();
+    private List<PhotoItem> data = new ArrayList<>();
 
     private View.OnClickListener imgClick;
 
@@ -76,9 +76,17 @@ public class PhotoItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         return data.size();
     }
 
+    public List<String> getSelectPath() {
+        return selectPath;
+    }
+
+    public List<PhotoItem> getData() {
+        return data;
+    }
+
     private class GridImageViewHolder extends RecyclerView.ViewHolder {
 
-        ImageView gridImage, selectImage, weekImage;
+        ImageView gridImage, selectImage;
 
         private FrameLayout selectLayout;
 
@@ -108,6 +116,8 @@ public class PhotoItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             gridImage.setImageURI(imageModel.getUri());
 
             gridImage.setTag(R.id.pick_image_path, imageModel.getPath());
+
+            gridImage.setOnClickListener(imgClick);
 
             if (selectPath.contains(imageModel.getPath())) {
                 select();

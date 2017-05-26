@@ -140,7 +140,13 @@ public class ImageSelectActivity extends AppCompatActivity {
     View.OnClickListener imageClick = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-
+            String imgPath = (String) v.getTag(R.id.pick_image_path);
+            Intent intent = new Intent();
+            intent.setClass(ImageSelectActivity.this, PickPhotoPreviewActivity.class);
+            intent.putExtra(PickConfig.INTENT_IMG_PATH, imgPath);
+            intent.putParcelableArrayListExtra(PickConfig.INTENT_IMG_LIST, (ArrayList<? extends Parcelable>) adapter.getData());
+            intent.putExtra(PickConfig.INTENT_IMG_LIST_SELECT, (Serializable) adapter.getSelectPath());
+            startActivityForResult(intent,PickConfig.PREVIEW_PHOTO_DATA);
         }
     };
 
