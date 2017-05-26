@@ -25,4 +25,9 @@
     <string name="pref_type">Set image type</string>
     <string name="pref_type_default_val">photo</string>
     <string name="pref_size_default_val">m</string>
+    <string name="about">About</string>
+    <string name="setting">Setting</string>
+    <string name="downloads">Downloads</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
 </resources>
