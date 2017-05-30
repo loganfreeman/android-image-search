@@ -297,6 +297,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case R.id.downloads:
                 startActivity(new Intent(this, ImageSelectActivity.class));
                 break;
+            case R.id.videos:
+                startActivity(new Intent(this, VideoSelectActivity.class));
+                break;
             case R.id.nav_set:
                 ToastUtil.showShort("You clicked setting");
                 break;

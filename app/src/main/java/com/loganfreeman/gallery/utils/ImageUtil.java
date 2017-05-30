@@ -17,6 +17,23 @@ public class ImageUtil {
     public static final String[] EXTENSIONS = new String[]{
             "gif", "png", "bmp" // and other formats you need
     };
+
+    public static final String[] VIDEO_EXTENSIONS = new String[] {
+            "mp4"
+    };
+    public static final FilenameFilter VIDEO_FILTER = new FilenameFilter() {
+
+        @Override
+        public boolean accept(final File dir, final String name) {
+            for (final String ext : VIDEO_EXTENSIONS) {
+                if (name.endsWith("." + ext)) {
+                    return (true);
+                }
+            }
+            return (false);
+        }
+    };
+
     // filter to identify images based on their extensions
     public static final FilenameFilter IMAGE_FILTER = new FilenameFilter() {
 

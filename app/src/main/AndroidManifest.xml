@@ -30,6 +30,8 @@
         <activity android:name=".ImageSelectActivity"></activity>
 
         <activity android:name=".LocalPhotoPreviewActivity"></activity>
+
+        <activity android:name=".VideoSelectActivity"></activity>
     </application>
 
 </manifest>

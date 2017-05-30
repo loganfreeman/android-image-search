@@ -7,6 +7,12 @@
             android:icon="@drawable/ic_file_download"
             android:title="@string/downloads"/>
 
+
+        <item
+            android:id="@+id/videos"
+            android:icon="@drawable/ic_action_video"
+            android:title="@string/video_files"/>
+
     </group>
 
     <item android:title="@string/app_name">
