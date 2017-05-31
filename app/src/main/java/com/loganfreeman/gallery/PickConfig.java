@@ -52,4 +52,5 @@ public class PickConfig {
 
     public static final int QUALITY = 100;
     public static final int MAX_SELECT_SIZE = 9;
+    public static final String IS_VIDEO = "SHOW_VIDEO" ;
 }

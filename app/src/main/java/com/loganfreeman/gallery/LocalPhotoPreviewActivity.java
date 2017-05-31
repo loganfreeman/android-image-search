@@ -40,6 +40,7 @@ public class LocalPhotoPreviewActivity extends AppCompatActivity {
     private List<ImageView> imageViews;
     private MyToolbar myToolbar;
     private boolean mIsHidden,misSelect;
+    private boolean isVideo;
 
 
     @Override
@@ -48,6 +49,7 @@ public class LocalPhotoPreviewActivity extends AppCompatActivity {
         setContentView(R.layout.pick_activty_preview_photo);
         path = getIntent().getStringExtra(PickConfig.INTENT_IMG_PATH);
         allImagePath =  getIntent().getExtras().getParcelableArrayList(PickConfig.INTENT_IMG_LIST);
+        isVideo = getIntent().getBooleanExtra(PickConfig.IS_VIDEO, false);
         selectImagePath = (List<String>) getIntent().getSerializableExtra(PickConfig.INTENT_IMG_LIST_SELECT);
         imageViews = new ArrayList<>();
         if(selectImagePath == null){
@@ -141,7 +143,6 @@ public class LocalPhotoPreviewActivity extends AppCompatActivity {
             container.addView(imageView,params);
             PhotoItem item = allImagePath.get(position);
             imageView.setImageURI(item.getUri());
-            ShareUtil.download(LocalPhotoPreviewActivity.this, item.getPath());
             return imageView;
         }
         

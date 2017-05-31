@@ -236,7 +236,7 @@ public class ImageSelectActivity extends AppCompatActivity {
     }
 
     void setupAdapter() {
-        adapter = new PhotoItemAdapter(this, listFiles(), imageClick);
+        adapter = new PhotoItemAdapter(this, listFiles(), imageClick, false);
         photoList.setAdapter(adapter);
     }
 

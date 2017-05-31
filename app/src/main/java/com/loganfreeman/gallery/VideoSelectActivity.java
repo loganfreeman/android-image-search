@@ -230,7 +230,7 @@ public class VideoSelectActivity extends AppCompatActivity {
     }
 
     void setupAdapter() {
-        adapter = new PhotoItemAdapter(this, listFiles(), imageClick);
+        adapter = new PhotoItemAdapter(this, listFiles(), imageClick, true);
         photoList.setAdapter(adapter);
     }
 
@@ -243,6 +243,7 @@ public class VideoSelectActivity extends AppCompatActivity {
             intent.putExtra(PickConfig.INTENT_IMG_PATH, imgPath);
             intent.putParcelableArrayListExtra(PickConfig.INTENT_IMG_LIST, (ArrayList<? extends Parcelable>) adapter.getData());
             intent.putExtra(PickConfig.INTENT_IMG_LIST_SELECT, (Serializable) adapter.getSelectPath());
+            intent.putExtra(PickConfig.IS_VIDEO, true);
             startActivityForResult(intent,PickConfig.PREVIEW_PHOTO_DATA);
         }
     };

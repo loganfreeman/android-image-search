@@ -11,6 +11,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.loganfreeman.gallery.ImageModel;
 import com.loganfreeman.gallery.PickConfig;
 import com.loganfreeman.gallery.R;
@@ -37,10 +38,13 @@ public class PhotoItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     private int scaleSize;
 
-    public PhotoItemAdapter(Context context, List<PhotoItem> data, View.OnClickListener imgClick) {
+    private final boolean isVideo;
+
+    public PhotoItemAdapter(Context context, List<PhotoItem> data, View.OnClickListener imgClick, boolean video) {
         this.context = context;
         this.data = data;
         this.imgClick = imgClick;
+        this.isVideo = video;
         buildScaleSize();
     }
 
@@ -115,13 +119,26 @@ public class PhotoItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             params.width = scaleSize;
             params.height = scaleSize;
 
+            if(isVideo) {
+                textItemdesc.setVisibility(View.GONE);
+            }
+
         }
 
         public void bindItem(final PhotoItem imageModel) {
 
-            textItemdesc.setText(imageModel.getDimension());
+            if(!isVideo) {
+                textItemdesc.setText(imageModel.getDimension());
+            }
 
-            gridImage.setImageURI(imageModel.getUri());
+            if(!isVideo) {
+                gridImage.setImageURI(imageModel.getUri());
+            }else{
+                Glide.with(context)
+                        .load(imageModel.getUri())
+                        .placeholder(R.drawable.placeholder)
+                        .into(gridImage);
+            }
 
             gridImage.setTag(R.id.pick_image_path, imageModel.getPath());
 
