@@ -87,10 +87,7 @@ public class VideoSelectActivity extends AppCompatActivity {
     }
 
     private void initShareButtons() {
-        if(isInstallWeChart(this)) {
-            shareToFriendBtn.setVisibility(View.VISIBLE);
-            shareToMomentBtn.setVisibility(View.VISIBLE);
-        }
+
     }
 
     private ArrayList<Uri> getSelectedUris() {
