@@ -19,18 +19,7 @@ public class PickData implements Serializable {
     private String toolbarIconColor;
     private boolean lightStatusBar;
 
-    public int getPickPhotoSize() {
-        return pickPhotoSize;
-    }
 
-    public void setPickPhotoSize(int pickPhotoSize) {
-        if(pickPhotoSize > 0 && pickPhotoSize <= PickConfig.DEFAULT_PICK_SIZE){
-            this.pickPhotoSize = pickPhotoSize;
-        }else {
-            Log.e(PickConfig.TAG,"Untrue size : photo size must between 1 and 9");
-            this.pickPhotoSize = PickConfig.DEFAULT_PICK_SIZE;
-        }
-    }
 
     public int getSpanCount() {
         return spanCount;

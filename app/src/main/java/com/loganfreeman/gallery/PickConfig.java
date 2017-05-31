@@ -34,8 +34,6 @@ public class PickConfig {
     public static final int CAMERA_PHOTO_DATA = 0x9949;
     // intent requestCode
     public static final int PREVIEW_PHOTO_DATA = 0x7763;
-    // default size
-    public static final int DEFAULT_PICK_SIZE = 9;
     // default span count
     public static final int DEFAULT_SPAN_COUNT = 3;
     // list scroll threshold

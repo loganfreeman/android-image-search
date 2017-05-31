@@ -34,4 +34,5 @@
     <string name="select_all">Select</string>
     <string name="image_select_title">Downloaded images</string>
     <string name="video_files">Videos</string>
+    <string name="video_select_title">Videos</string>
 </resources>
