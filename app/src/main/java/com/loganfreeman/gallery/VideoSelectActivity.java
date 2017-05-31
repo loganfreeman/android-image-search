@@ -239,7 +239,7 @@ public class VideoSelectActivity extends AppCompatActivity {
         public void onClick(View v) {
             String imgPath = (String) v.getTag(R.id.pick_image_path);
             Intent intent = new Intent();
-            intent.setClass(VideoSelectActivity.this, LocalPhotoPreviewActivity.class);
+            intent.setClass(VideoSelectActivity.this, LocalVideoPreviewActivity.class);
             intent.putExtra(PickConfig.INTENT_IMG_PATH, imgPath);
             intent.putParcelableArrayListExtra(PickConfig.INTENT_IMG_LIST, (ArrayList<? extends Parcelable>) adapter.getData());
             intent.putExtra(PickConfig.INTENT_IMG_LIST_SELECT, (Serializable) adapter.getSelectPath());
