@@ -30,7 +30,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.loganfreeman.gallery.PickConfig.DEFAULT_PICK_SIZE;
 
 
 
@@ -201,13 +200,9 @@ public class LocalVideoPreviewActivity extends AppCompatActivity {
                     selectImagePath.remove(path);
                     misSelect = false;
                 }else {
-                    if(selectImagePath.size() <DEFAULT_PICK_SIZE) {
-                        myToolbar.setRightIconDefault(R.mipmap.pick_ic_select);
-                        selectImagePath.add(path);
-                        misSelect = true;
-                    }else {
-                        Toast.makeText(LocalVideoPreviewActivity.this, String.format(v.getContext().getString(R.string.pick_photo_size_limit), String.valueOf(DEFAULT_PICK_SIZE)), Toast.LENGTH_SHORT).show();
-                    }
+                    myToolbar.setRightIconDefault(R.mipmap.pick_ic_select);
+                    selectImagePath.add(path);
+                    misSelect = true;
                 }
             }
         });

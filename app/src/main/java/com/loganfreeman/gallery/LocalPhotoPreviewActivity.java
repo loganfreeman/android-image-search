@@ -25,7 +25,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.loganfreeman.gallery.PickConfig.DEFAULT_PICK_SIZE;
 
 /**
  * Created by shanhong on 5/26/17.
@@ -189,12 +188,12 @@ public class LocalPhotoPreviewActivity extends AppCompatActivity {
                     selectImagePath.remove(path);
                     misSelect = false;
                 }else {
-                    if(selectImagePath.size() <DEFAULT_PICK_SIZE) {
+                    if(selectImagePath.size() <PickConfig.MAX_SELECT_SIZE) {
                         myToolbar.setRightIconDefault(R.mipmap.pick_ic_select);
                         selectImagePath.add(path);
                         misSelect = true;
                     }else {
-                        Toast.makeText(LocalPhotoPreviewActivity.this, String.format(v.getContext().getString(R.string.pick_photo_size_limit), String.valueOf(DEFAULT_PICK_SIZE)), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(LocalPhotoPreviewActivity.this, String.format(v.getContext().getString(R.string.pick_photo_size_limit), String.valueOf(PickConfig.MAX_SELECT_SIZE)), Toast.LENGTH_SHORT).show();
                     }
                 }
             }

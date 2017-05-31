@@ -74,7 +74,7 @@ public class VideoSelectActivity extends AppCompatActivity {
 
         ButterKnife.bind(this);
 
-        toolbar.setTitle(getString(R.string.image_select_title));
+        toolbar.setTitle(getString(R.string.video_select_title));
 
         setSupportActionBar(toolbar);
 
@@ -87,7 +87,8 @@ public class VideoSelectActivity extends AppCompatActivity {
     }
 
     private void initShareButtons() {
-
+        shareToFriendBtn.setVisibility(View.GONE);
+        shareToMomentBtn.setVisibility(View.GONE);
     }
 
     private ArrayList<Uri> getSelectedUris() {

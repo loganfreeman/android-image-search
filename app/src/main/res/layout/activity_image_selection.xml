@@ -42,9 +42,26 @@
             android:layout_height="100dp"
             android:orientation="vertical">
 
-            <LinearLayout
+            <org.apmem.tools.layouts.FlowLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
+
+
+                <CheckBox
+                    android:id="@+id/select_all"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:layout_marginRight="10sp"
+                    android:text="@string/select_all"
+                    android:textColor="@color/pick_gray"
+                    android:textSize="16sp" />
+
+                <Button
+                    android:id="@+id/delete_all"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/delete_all"/>
+
                 <Button
                     android:id="@+id/share"
                     android:layout_width="wrap_content"
@@ -66,26 +83,10 @@
                     android:visibility="gone"
                     android:text="@string/share_to_moments"/>
 
-            </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <CheckBox
-                    android:id="@+id/select_all"
-                    android:layout_width="wrap_content"
-                    android:layout_height="50dp"
-                    android:layout_marginRight="10sp"
-                    android:text="@string/select_all"
-                    android:textColor="@color/pick_gray"
-                    android:textSize="16sp" />
+            </org.apmem.tools.layouts.FlowLayout>
 
-                <Button
-                    android:id="@+id/delete_all"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/delete_all"/>
-            </LinearLayout>
+
 
 
 
