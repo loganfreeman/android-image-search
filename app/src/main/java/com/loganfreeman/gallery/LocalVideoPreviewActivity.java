@@ -9,18 +9,18 @@ import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.animation.DecelerateInterpolator;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 import android.widget.VideoView;
 
 import com.loganfreeman.gallery.utils.PhotoItem;
@@ -39,11 +39,11 @@ import java.util.List;
 
 public class LocalVideoPreviewActivity extends AppCompatActivity {
 
-    private List<PhotoItem> allImagePath;
+    private List<PhotoItem> videoItems;
     private List<String> selectImagePath;
     private String path;
     private ViewPager viewPager;
-    private List<VideoView> imageViews;
+    private List<VideoView> videoViews;
     private MyToolbar myToolbar;
     private boolean mIsHidden,misSelect;
     private boolean isVideo;
@@ -54,10 +54,10 @@ public class LocalVideoPreviewActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.pick_activty_preview_photo);
         path = getIntent().getStringExtra(PickConfig.INTENT_IMG_PATH);
-        allImagePath =  getIntent().getExtras().getParcelableArrayList(PickConfig.INTENT_IMG_LIST);
+        videoItems =  getIntent().getExtras().getParcelableArrayList(PickConfig.INTENT_IMG_LIST);
         isVideo = getIntent().getBooleanExtra(PickConfig.IS_VIDEO, false);
         selectImagePath = (List<String>) getIntent().getSerializableExtra(PickConfig.INTENT_IMG_LIST_SELECT);
-        imageViews = new ArrayList<>();
+        videoViews = new ArrayList<>();
         if(selectImagePath == null){
             selectImagePath = new ArrayList<>();
         }
@@ -69,17 +69,17 @@ public class LocalVideoPreviewActivity extends AppCompatActivity {
                     hideOrShowToolbar();
                 }
             });
-            imageViews.add(imageView);
+            videoViews.add(imageView);
         }
 
         initView();
-        Log.d("image size", allImagePath.size() + "");
+        Log.d("image size", videoItems.size() + "");
     }
 
     private int getSelectedIndex() {
         int selected = 0;
-        for(int i = 0; i < allImagePath.size(); i++) {
-            if(path.endsWith(allImagePath.get(i).getPath())) {
+        for(int i = 0; i < videoItems.size(); i++) {
+            if(path.endsWith(videoItems.get(i).getPath())) {
                 selected = i;
             }
         }
@@ -106,8 +106,10 @@ public class LocalVideoPreviewActivity extends AppCompatActivity {
         });
         viewPager = (ViewPager) findViewById(R.id.image_vp);
         int indexOf = getSelectedIndex();
-        judgeSelect(allImagePath.get(indexOf).getPath());
-        viewPager.setAdapter(new listPageAdapter());
+        judgeSelect(videoItems.get(indexOf).getPath());
+        ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
+        viewPagerAdapter.setVideoItems(videoItems);
+        viewPager.setAdapter(viewPagerAdapter);
         viewPager.setCurrentItem(indexOf);
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -117,7 +119,7 @@ public class LocalVideoPreviewActivity extends AppCompatActivity {
 
             @Override
             public void onPageSelected(int position) {
-                String path = allImagePath.get(position).getPath();
+                String path = videoItems.get(position).getPath();
                 judgeSelect(path);
 
 
@@ -130,12 +132,39 @@ public class LocalVideoPreviewActivity extends AppCompatActivity {
         });
     }
 
+    private class ViewPagerAdapter extends FragmentStatePagerAdapter {
+
+        private List<PhotoItem> videoItems;
+
+        public ViewPagerAdapter(FragmentManager manager) {
+            super(manager);
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            return VideoViewFragment.newInstance(position, videoItems.get(position));
+        }
+
+        @Override
+        public int getCount() {
+            return videoItems.size();
+        }
+
+        public List<PhotoItem> getVideoItems() {
+            return videoItems;
+        }
+
+        public void setVideoItems(List<PhotoItem> videoItems) {
+            this.videoItems = videoItems;
+        }
+    }
+
     //通过ViewPager实现滑动的图片
     private class listPageAdapter extends PagerAdapter {
 
         @Override
         public int getCount() {
-            return allImagePath.size();
+            return videoItems.size();
         }
 
         @Override
@@ -147,21 +176,29 @@ public class LocalVideoPreviewActivity extends AppCompatActivity {
 
         public Object instantiateItem(ViewGroup container, final int position) {
             int i = position % 4;
-            final VideoView videoView = imageViews.get(i);
+            final VideoView videoView = videoViews.get(i);
             RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
             container.addView(videoView,params);
 
-            PhotoItem item = allImagePath.get(position);
+            PhotoItem item = videoItems.get(position);
             videoView.setVideoURI(item.getUri());
-            videoView.start();
+
+            start(videoView);
             return videoView;
+        }
+
+        private void start(VideoView view) {
+            for(VideoView videoView : videoViews) {
+                videoView.stopPlayback();
+            }
+            view.start();
         }
 
 
         @Override
         public void destroyItem(ViewGroup container, int position, Object object) {
             int i = position % 4;
-            final VideoView imageView = imageViews.get(i);
+            final VideoView imageView = videoViews.get(i);
             container.removeView(imageView);
         }
     }
