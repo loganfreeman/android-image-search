@@ -120,6 +120,8 @@ public class LocalVideoPreviewActivity extends AppCompatActivity {
             public void onPageSelected(int position) {
                 String path = allImagePath.get(position).getPath();
                 judgeSelect(path);
+
+
             }
 
             @Override
@@ -152,7 +154,6 @@ public class LocalVideoPreviewActivity extends AppCompatActivity {
 
             PhotoItem item = allImagePath.get(position);
             videoView.setVideoURI(item.getUri());
-
             videoView.start();
             return videoView;
         }
